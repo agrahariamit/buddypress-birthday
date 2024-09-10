@@ -32,30 +32,34 @@ import '../editor.scss';
  *
  * @return {WPElement} Element to render.
  */
-export default function Members({ itemIDs }) {
+export default function Members() {
 
     // Define state variables for form inputs
     const [members, setMembers] = useState([]);
 
+    // useEffect(() => {
+
+    //     apiFetch({ path: '/buddypress/v1/members' }).then(items => {
+    //         setMembers(items);
+    //     });
+    // }, [itemIDs]);
+
     useEffect(() => {
-
-        apiFetch({ path: '/buddypress/v1/members' }).then(items => {
-            setMembers(items);
-        });
-    }, [itemIDs]);
-        
-
-
-   
+        // Fetch members only once when the component mounts
+        apiFetch({ path: '/buddypress/v1/members' })
+            .then((items) => {
+                setMembers(items);
+            })
+            .catch((error) => {
+                console.error('Error fetching members:', error);
+            });
+    }, []); // Empty dependency array ensures the effect runs only once
 
     return(
         <div {...useBlockProps()}>
-            
             {members.length > 0 ? (
                 members.map((member) => (
                     <div key={member.id}>
-                        {/* {console.log(member.latest_update)} */}
-                        {/* Replace this with the actual member data rendering */}
                         <div className="item-header-avatar">
                             <a href={member.link} target="_blank">
                                 <img
@@ -67,22 +71,14 @@ export default function Members({ itemIDs }) {
                             </a>
                         </div>
                         <div className="member-description">
-                            <blockquote className="wp-block-quote">
-                                {/* <div dangerouslySetInnerHTML={{ __html: member.latest_update.rendered }} /> */}
-                                <cite>
-                                    {(
-                                        <span>
-                                            {member.name}
-                                        </span>
-                                    )}
-                                    &nbsp;
-                                    {(
-                                        <a href={member.link} target="_blank">
-                                            (@{member.mention_name})
-                                        </a>
-                                    )}
-                                </cite>
-                            </blockquote>
+                            {/* <div dangerouslySetInnerHTML={{ __html: member.latest_update.rendered }} /> */}
+                            <a href={member.link}>
+                                {(
+                                    <span>
+                                        {member.name}
+                                    </span>
+                                )}
+                            </a>
                         </div>
                     </div>
                 ))
@@ -91,7 +87,5 @@ export default function Members({ itemIDs }) {
             )}
         </div>
     );
-
-
     
 }
