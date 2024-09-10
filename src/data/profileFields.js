@@ -12,6 +12,7 @@ import { __ } from '@wordpress/i18n';
  * @see https://developer.wordpress.org/block-editor/packages/packages-block-editor/#useBlockProps
  */
 import { useBlockProps } from '@wordpress/block-editor';
+import { SelectControl } from '@wordpress/components';
 import { useState, useEffect } from '@wordpress/element';
 import apiFetch from '@wordpress/api-fetch';
 
@@ -31,31 +32,43 @@ import '../editor.scss';
  *
  * @return {WPElement} Element to render.
  */
-export default function xProfileFileds() {
-    console.log('================================', '================================');
+export default function ProfileFields({ field }) {
     // Define state variables for form inputs
     const [fields, setFields] = useState([]);
 
     useEffect(() => {
-        apiFetch({ path: '/buddypress/v1/xprofile' }).then(items => {
-            console.log(items);
+        // Fetch data from BuddyPress xProfile API
+        apiFetch({ path: 'buddypress/v1/xprofile/fields' })
+            .then(items => {
+                setFields(items);
+            })
+            .catch(err => {
+                console.error('Error fetching xProfile fields:', err);
+            });
+    }, []); // Adding an empty dependency array to run effect only on component mount
 
-            setFields(items);
-        });
-    })
-
+    // Map the fetched fields to the desired options format
+    const selectOptions = fields
+        .filter(item => item.type === 'datebox') // Filter to include only 'datebox' types
+        .map(item => ({
+            value: item.id,  // Assign the field ID as the value
+            label: item.name // Assign the field name as the label
+        }));
 
     return (
         <div {...useBlockProps()}>
-            {fetchFields && (
-                <div>
-                    <ul>
-                        {fetchFields.map((item, index) => (
-                            <li key={index}>{item.name}</li>
-                        ))}
-                    </ul>
-                </div>
+            {fields.length > 0 ? (
+                <SelectControl
+                            label={__('Field name', 'block-development-examples')}
+                            value={field}
+                            options={selectOptions}
+                            onChange={onChangeSelectField}
+                        />
+            ) : (
+                <p>{__('Loading fields...', 'text-domain')}</p>
             )}
         </div>
     );
+
+
 }

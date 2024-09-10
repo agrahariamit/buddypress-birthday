@@ -1,4 +1,4 @@
-/**
+    /**
  * Retrieves the translation of text.
  *
  * @see https://developer.wordpress.org/block-editor/packages/packages-i18n/
@@ -84,7 +84,7 @@ export default function Edit({ attributes, setAttributes }) {
                             >
                             </CheckboxControl>
                         </PanelRow>
-                        <SelectControl
+                        {/* <SelectControl
                             label={__('Field name', 'block-development-examples')}
                             value={attributes.field}
                             options={[
@@ -93,8 +93,8 @@ export default function Edit({ attributes, setAttributes }) {
                                 { value: 'c', label: 'Option C' },
                             ]}
                             onChange={onChangeSelectField}
-                        />
-                        <xProfileFileds {...attributes}></xProfileFileds>
+                        /> */}
+                        <ProfileFields {...attributes}></ProfileFields>
                     </PanelBody>
                 </Panel>
             </InspectorControls>
