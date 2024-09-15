@@ -27,11 +27,35 @@
             "type": "string",
             "default": "Upcoming Birthdays"
         },
-        "memberAge": {
+        "displayAge": {
             "type": "boolean",
             "default": true
         },
-        "wishes": {
+        "sendMessage": {
+            "type": "boolean",
+            "default": true
+        },
+        "dateFormat": {
+            "type": "string",
+            "default": "F D"
+        },
+        "rangeLimit": {
+            "type": "string",
+            "default": "no_limit"
+        },
+        "birthdaysOf": {
+            "type": "string",
+            "default": "all"
+        },
+        "nameType": {
+            "type": "string",
+            "default": "user_name"
+        },
+        "limit": {
+            "type": "number",
+            "default": 5
+        },
+        "emoji": {
             "type": "boolean",
             "default": true
         },

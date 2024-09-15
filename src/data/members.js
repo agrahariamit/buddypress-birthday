@@ -32,7 +32,7 @@ import '../editor.scss';
  *
  * @return {WPElement} Element to render.
  */
-export default function Members() {
+export default function Members({ itemIDs, title, memberAge }) {
 
     // Define state variables for form inputs
     const [members, setMembers] = useState([]);

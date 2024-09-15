@@ -1,4 +1,4 @@
-    /**
+/**
  * Retrieves the translation of text.
  *
  * @see https://developer.wordpress.org/block-editor/packages/packages-i18n/
@@ -12,9 +12,9 @@ import { __ } from '@wordpress/i18n';
  * @see https://developer.wordpress.org/block-editor/packages/packages-block-editor/#useBlockProps
  */
 import { useBlockProps, InspectorControls } from '@wordpress/block-editor';
-import { TextControl, Panel, PanelBody, PanelRow, CheckboxControl, SelectControl } from '@wordpress/components';
+import { TextControl, Panel, PanelBody, PanelRow, CheckboxControl, SelectControl, NumberControl } from '@wordpress/components';
 import Members from './data/members';
-import xProfileFileds from './data/xProfileFileds';
+import ProfileFields from './data/profileFields'; // Note: Ensure this file and component exist and follow naming conventions
 
 /**
  * Lets webpack process CSS, SASS or SCSS files referenced in JavaScript files.
@@ -37,18 +37,30 @@ export default function Edit({ attributes, setAttributes }) {
         setAttributes({ title: title });
     };
 
-    const onCheckedAge = (memberAge) => {
-        setAttributes({ memberAge: memberAge });
+    const onCheckedAge = (displayAge) => {
+        setAttributes({ displayAge: displayAge });
     }
 
-    const onCheckedWishes = (wishes) => {
-        setAttributes({ wishes: wishes });
+    const onCheckedWishes = (sendMessage) => {
+        setAttributes({ sendMessage: sendMessage });
     }
 
-    const onChangeSelectField = (field) => {
-        setAttributes({ field: field });
+    const onChangeDateFormate = (dateFormat) => {
+        setAttributes({ dateFormat: dateFormat });
     }
 
+    const onChangeRangeLimit = (rangeLimit) => {
+        setAttributes({ rangeLimit: rangeLimit });
+    }
+    const onChangeBirthdaysOf = (birthdaysOf) => {
+        setAttributes({ birthdaysOf: birthdaysOf });
+    }
+    const onChangeNameTypet = (nameType) => {
+        setAttributes({ nameType: nameType });
+    }
+    const onChangelimit = (limit) => {
+        setAttributes({ limit: limit });
+    }
     // const [isChecked, setChecked] = useState(attributes.age);
 
     return (
@@ -71,7 +83,7 @@ export default function Edit({ attributes, setAttributes }) {
                         <PanelRow>
                             <CheckboxControl
                                 label={__(' Show the age of the person', 'block-development-examples')}
-                                checked={attributes.memberAge}
+                                checked={attributes.displayAge}
                                 onChange={onCheckedAge}
                             >
                             </CheckboxControl>
@@ -79,27 +91,75 @@ export default function Edit({ attributes, setAttributes }) {
                         <PanelRow>
                             <CheckboxControl
                                 label={__('Enable option to wish them', 'block-development-examples')}
-                                checked={attributes.wishes}
+                                checked={attributes.sendMessage}
                                 onChange={onCheckedWishes}
                             >
                             </CheckboxControl>
+                        </PanelRow>
+                        <PanelRow>
+                            <TextControl
+                                label={__('Date format', 'block-development-examples')}
+                                value={attributes.dateFormat}
+                                onChange={onChangeDateFormate}
+                            />  
+                        </PanelRow>
+                        <PanelRow>
+                            <SelectControl
+                                label={__('Birthday range limit', 'block-development-examples')}
+                                value={attributes.rangeLimit}
+                                onChange={onChangeRangeLimit}
+                                options={[
+                                    { value: 'no_limit', label: __('No limit', 'block-development-examples' )},
+                                    { value: 'weekly', label: __('Weekly', 'block-development-examples' ) },
+                                    { value: 'monthly', label: __('Monthly', 'block-development-examples' ) },
+                                ]}
+                            />
+                        </PanelRow>
+                        <PanelRow>
+                            <SelectControl
+                                label={__('Show Birthdays of', 'block-development-examples')}
+                                value={attributes.birthdaysOf}
+                                onChange={onChangeBirthdaysOf}
+                                options={[
+                                    { value: 'friends', label: __('Friends', 'block-development-examples') },
+                                    { value: 'all', label: __('All Members', 'block-development-examples') },
+                                ]}
+                            />
+                        </PanelRow>
+                        <PanelRow>
+                            <SelectControl
+                                label={__('Display Name Type', 'block-development-examples')}
+                                value={attributes.nameType}
+                                onChange={onChangeNameTypet}
+                                options={[
+                                    { value: 'friends', label: __('Friends', 'block-development-examples') },
+                                    { value: 'all', label: __('All Members', 'block-development-examples') },
+                                ]}
+                            />
+                        </PanelRow>
+                        <PanelRow>
+                            <NumberControl
+                                label={__('Number of birthdays to show ', 'block-development-examples')}
+                                value={attributes.limit}
+                                onChange={onChangelimit}
+                            />
                         </PanelRow>
                         {/* <SelectControl
                             label={__('Field name', 'block-development-examples')}
                             value={attributes.field}
                             options={[
-                                { value: 'a', label: 'Option A' },
+                                { value: 'no_limit', label: 'Option A' },
                                 { value: 'b', label: 'Option B' },
                                 { value: 'c', label: 'Option C' },
                             ]}
                             onChange={onChangeSelectField}
                         /> */}
-                        <ProfileFields {...attributes}></ProfileFields>
+                        {/* <ProfileFields {...attributes}></ProfileFields> */}
+                        {/* Call the XProfileFields component here */}
                     </PanelBody>
                 </Panel>
             </InspectorControls>
             <Members {...attributes}></Members>
-            
         </div>
     );
 }
